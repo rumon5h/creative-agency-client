@@ -7,7 +7,7 @@ import logo5 from '../../images/5.png'
 
 const Company = () => {
     return (
-        <div className='grid grid-cols-5 my-6 items-center justify-center mx-5'>
+        <div className='grid grid-cols-5 my-12 items-center justify-center mx-5'>
             <img src={logo1} className="w-44 h-9" alt="" />
             <img src={logo2} className="w-44 h-9" alt="" />
             <img src={logo3} className="w-44 h-9" alt="" />

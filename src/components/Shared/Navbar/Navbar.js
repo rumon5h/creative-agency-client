@@ -12,11 +12,11 @@ const Navbar = () => {
                 </Link>
             </div>
             <div>
-                <Link className='ml-3' to='/home'>Home</Link>
-                <Link className='ml-3' to='/portfolio'>Our Portfolio</Link>
-                <Link className='ml-3' to='/team'>Our Team</Link>
-                <Link className='ml-3' to='/contact'>Contact Us</Link>
-                <Link className='ml-3' to='/login'> <button class="btn px-9">LogIn</button></Link>
+                <Link className='ml-3 text-[17px]' to='/home'>Home</Link>
+                <Link className='ml-3 text-[17px]' to='/portfolio'>Our Portfolio</Link>
+                <Link className='ml-3 text-[17px]' to='/team'>Our Team</Link>
+                <Link className='ml-3 text-[17px]' to='/contact'>Contact Us</Link>
+                <Link className='ml-3 text-[17px]' to='/login'> <button class="btn px-9">LogIn</button></Link>
             </div>
         </div>
     );

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../../images/Group 1367.png';
+import logo from '../../../images/logo.png';
 
 const Navbar = () => {
 
     return (
-        <div className='flex justify-between mt-[30px] px-7 items-center'>
+        <div className='flex bg-[#FBD062] justify-between pt-[30px] px-7 items-center'>
             <div>
-                <Link  to='/'>
+                <Link to='/'>
                     <img className='w-36 h-9' src={logo} alt="" />
-                     </Link>
+                </Link>
             </div>
             <div>
                 <Link className='ml-3' to='/home'>Home</Link>

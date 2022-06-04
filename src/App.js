@@ -8,6 +8,8 @@ import ServiceList from './components/Dashboard/ServiceList/ServiceList';
 import Home from './components/Home/Home';
 import Navbar from './components/Shared/Navbar/Navbar';
 import Signup from './components/Signup/Signup';
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
 
         </Route>
       </Routes>
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

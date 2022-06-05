@@ -1,15 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import Loading from '../Shared/Loading/Loading';
 
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+      ] = useSignInWithEmailAndPassword(auth);
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        const email = data.email;
+        const password = data.password;
+        signInWithEmailAndPassword(email, password);
     };
+
+    if(user){
+        return navigate('/');
+    }
+
+    if(loading){
+        return <Loading></Loading>
+    }
     return (
-        <div class="card card-compact w-[470px] mx-auto my-12 bg-base-100 shadow-xl">
+        <div class="card card-compact w-[470px] mx-auto my-5 bg-base-100 shadow-xl">
             <div class="card-body m-8">
                 <h1 className='text-2xl text-gray-900 text-center'>Please LogIn!</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>

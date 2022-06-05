@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { async } from '@firebase/util';
@@ -9,16 +9,20 @@ import Loading from '../Shared/Loading/Loading';
 
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [
         createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+    const [updateProfile, updating, uError] = useUpdateProfile(auth);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    
     const onSubmit = async data => {
         console.log(data)
+        const name = data.name;
         const email = data.email;
         const password = data.password;
         const confirmPassword = data.confirmPassword;
@@ -26,13 +30,21 @@ const Signup = () => {
         if (password !== confirmPassword) {
             return toast.error('Password did not match, Please try again!')
         }
-        await createUserWithEmailAndPassword(email, password)
+        await createUserWithEmailAndPassword(email, password);
+        await updateProfile({ displayName: name });
+        console.log(user);
     };
 
-   
-        if (loading || true) {
-            return <Loading></Loading>
+
+    useEffect(() => {
+        if (user) {
+          return  navigate('/');
         }
+    },[user, navigate])
+
+    if (loading) {
+        return <Loading></Loading>
+    }
 
 
     return (

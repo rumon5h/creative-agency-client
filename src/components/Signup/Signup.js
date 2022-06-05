@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { async } from '@firebase/util';
@@ -10,6 +10,8 @@ import Loading from '../Shared/Loading/Loading';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+
     const [
         createUserWithEmailAndPassword,
         user,
@@ -37,20 +39,20 @@ const Signup = () => {
 
 
     useEffect(() => {
-        if (user) {
+        if (user || gUser) {
           return  navigate('/');
         }
-    },[user, navigate]);
+    },[user, gUser, navigate]);
  
 
     useEffect(() =>{
-        if(error || uError){
-            return toast.error((error.message, {id: 'signUp-error'}) || uError.message, {id: 'update-error'});
+        if(error || uError || gError){
+            return toast.error((error.message, {id: 'signUp-error'}) || (uError.message, {id: 'update-error'}) || (gError.message, {id: 'google-error'}));
         }
     
-    },[error, uError]);
+    },[error, uError, gError]);
 
-    if (loading) {
+    if (loading || gLoading || updating) {
         return <Loading></Loading>
     }
 
@@ -81,7 +83,9 @@ const Signup = () => {
                 </form>
                 <p className='text-md mt-4'>Already have an account? <Link to='/login' className='text-blue-900'>LogIn</Link> </p>
                 <div class="divider">OR</div>
-                <button class="btn btn-outline">Continue With Google</button>
+                <button 
+                onClick={() => signInWithGoogle()}
+                class="btn btn-outline">Continue With Google</button>
             </div>
         </div>
     );

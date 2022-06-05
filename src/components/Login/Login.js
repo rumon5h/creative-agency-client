@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading/Loading';
 import { toast } from 'react-toastify';
 
-
 const Login = () => {
     const navigate = useNavigate();
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const [
         signInWithEmailAndPassword,
         user,
@@ -24,19 +24,18 @@ const Login = () => {
     };
     
     useEffect(() => { 
-        if(error){
-            return toast.error(error.message, {id: 'login-error'});
+        if(error || gError){
+            return toast.error(error.message, {id: 'login-error'} || gError.message, {id: 'google1-error'});
         }
-    },[error])
+    },[error, gError])
 
     useEffect( () => {
-
-    if(user){
+    if(user || gUser){
         return navigate('/');
     }
-    },[user, navigate])
+    },[user ,gUser, navigate])
 
-    if(loading){
+    if(loading || gLoading){
         return <Loading></Loading>
     }
     return (
@@ -58,7 +57,9 @@ const Login = () => {
                 </form>
                 <p className='text-md mt-4'>New to there? <Link to='/signup' className='text-blue-900'>Create new account</Link> </p>
                 <div class="divider">OR</div>
-                <button class="btn btn-outline">Continue With Google</button>
+                <button
+                onClick={() => signInWithGoogle()}
+                class="btn btn-outline">Continue With Google</button>
             </div>
         </div>
     );

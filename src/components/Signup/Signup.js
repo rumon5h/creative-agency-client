@@ -44,7 +44,6 @@ const Signup = () => {
         }
     },[user, gUser, navigate]);
  
-
     useEffect(() =>{
         if(error || uError || gError){
             return toast.error((error.message, {id: 'signUp-error'}) || (uError.message, {id: 'update-error'}) || (gError.message, {id: 'google-error'}));

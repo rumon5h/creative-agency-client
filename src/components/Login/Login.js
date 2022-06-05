@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading/Loading';
+import { toast } from 'react-toastify';
 
 
 const Login = () => {
@@ -21,10 +22,19 @@ const Login = () => {
         const password = data.password;
         signInWithEmailAndPassword(email, password);
     };
+    
+    useEffect(() => { 
+        if(error){
+            return toast.error(error.message, {id: 'login-error'});
+        }
+    },[error])
+
+    useEffect( () => {
 
     if(user){
         return navigate('/');
     }
+    },[user, navigate])
 
     if(loading){
         return <Loading></Loading>

@@ -40,7 +40,15 @@ const Signup = () => {
         if (user) {
           return  navigate('/');
         }
-    },[user, navigate])
+    },[user, navigate]);
+ 
+
+    useEffect(() =>{
+        if(error || uError){
+            return toast.error((error.message, {id: 'signUp-error'}) || uError.message, {id: 'update-error'});
+        }
+    
+    },[error, uError]);
 
     if (loading) {
         return <Loading></Loading>
@@ -54,11 +62,11 @@ const Signup = () => {
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <input
                         {...register("name", { required: true })}
-                        type="text" placeholder="Enter your name" class="mt-5 input input-bordered  w-full max-w-md" />
+                        type="text" placeholder="Your name" class="mt-5 input input-bordered  w-full max-w-md" />
                     {errors.name && <span className='text-red-500 '>Name is required</span>}
                     <input
                         {...register("email", { required: true })}
-                        type="email" placeholder="Enter your email" class="mt-5 input input-bordered  w-full max-w-md" />
+                        type="email" placeholder="Your email" class="mt-5 input input-bordered  w-full max-w-md" />
                     {errors.email && <span className='text-red-500 '>Email is required</span>}
                     <input
                         {...register("password", { required: true })}
@@ -68,6 +76,7 @@ const Signup = () => {
                         {...register("confirmPassword", { required: true })}
                         type="password" placeholder="Confirm password" class="mt-5 input input-bordered  w-full max-w-md" />
                     {errors.confirmPassword && <span className='text-red-500 '>Password is required</span>}
+                    
                     <input type="submit" className='btn w-full mt-5' value="Sign Up" />
                 </form>
                 <p className='text-md mt-4'>Already have an account? <Link to='/login' className='text-blue-900'>LogIn</Link> </p>

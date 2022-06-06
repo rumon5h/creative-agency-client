@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
@@ -27,7 +27,7 @@ const Login = () => {
         if(error || gError){
             return toast.error(error.message, {id: 'login-error'} || gError.message, {id: 'google1-error'});
         }
-    },[error, gError])
+    },[error, gError]);
 
     useEffect( () => {
     if(user || gUser){
